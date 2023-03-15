@@ -25,7 +25,6 @@ def stop():
 def work_time():
     global WORK_TIME, SECONDS, COMPLETED, running, completed_study
     pomodoro_label.config(text="Work Time", fg=GREEN_COLOR)
-    start_button["state"] = DISABLED
     running = screen.after(1000, work_time)
     if running:
         if len(str(SECONDS)) < 2:
@@ -47,7 +46,6 @@ def work_time():
 def short_break_time():
     global SHORT_BREAK_TIME, SECONDS, COMPLETED, running
     pomodoro_label.config(text="Short Break", fg=LIGHT_RED_COLOR)
-    start_button["state"] = DISABLED
     running = screen.after(1000, short_break_time)
     if len(str(SECONDS)) < 2:
         canvas_tomato.itemconfig(text, text=f"{SHORT_BREAK_TIME} : 0{SECONDS}")
@@ -67,7 +65,6 @@ def short_break_time():
 def long_break_time():
     global LONG_BREAK_TIME, SECONDS, COMPLETED, running, completed_study
     pomodoro_label.config(text="Long Break", fg=LIGHT_RED_COLOR)
-    start_button["state"] = DISABLED
     running = screen.after(1000, long_break_time)
     if len(str(SECONDS)) < 2:
         canvas_tomato.itemconfig(text, text=f"{LONG_BREAK_TIME} : 0{SECONDS}")
@@ -89,6 +86,7 @@ def long_break_time():
 
 def manage_timer():
     global COMPLETED, running, completed_study
+    start_button["state"] = DISABLED
     if COMPLETED % 2 == 0:
         work_time()
         running = screen.after((1 * 60) * 1000 + 5000, manage_timer)
@@ -98,7 +96,6 @@ def manage_timer():
     if COMPLETED == 7:
         long_break_time()
     if COMPLETED == 8:
-        completed_study = 0
         stop()
     COMPLETED += 1
     completed_mark_label.config(text=f"{'✓' * completed_study}", fg=GREEN_COLOR, font=("Arial", 15, "normal"))
